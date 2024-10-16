@@ -9,7 +9,6 @@ const { port } = require('./config/appConfig');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 
 const app = express();
@@ -24,7 +23,6 @@ connectDB();
 
 // Define routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/jobs',jobRoutes);
 
 app.all("*", (req, res, next) => {
