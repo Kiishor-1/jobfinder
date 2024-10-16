@@ -23,11 +23,23 @@ connectDB();
 
 // Define routes
 app.use('/api/auth', authRoutes);
-app.use('/api/jobs',jobRoutes);
+app.use('/api/jobs', jobRoutes);
 
+// Handle 404 for undefined routes
 app.all("*", (req, res, next) => {
-  next(new Error(404, "Page Not Found"));
-})
+  const error = new Error("Page Not Found");
+  error.statusCode = 404;
+  next(error);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 // Start the server
 const PORT = port;
